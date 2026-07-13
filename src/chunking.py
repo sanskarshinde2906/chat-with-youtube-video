@@ -1,29 +1,15 @@
-import nltk
-from nltk.tokenize import sent_tokenize
-
-# Run only once
-nltk.download("punkt")
-
-
-def split_into_sentences(text: str) -> list[str]:
-    """
-    Convert transcript into a list of sentences.
-    """
-    return sent_tokenize(text)
-
-
 def create_chunks(
-    sentences: list[str],
-    chunk_size: int = 15,
-    overlap: int = 3
+    text: str,
+    chunk_size: int = 1800,
+    overlap: int = 300
 ) -> list[str]:
     """
-    Create sentence-based chunks with overlap.
+    Split transcript into character-based chunks with overlap.
 
     Args:
-        sentences (list[str]): List of sentences.
-        chunk_size (int): Number of sentences per chunk.
-        overlap (int): Number of overlapping sentences.
+        text (str): Full transcript.
+        chunk_size (int): Maximum characters in one chunk.
+        overlap (int): Number of overlapping characters.
 
     Returns:
         list[str]: List of text chunks.
@@ -36,52 +22,24 @@ def create_chunks(
 
     chunks = []
 
-    step = chunk_size - overlap
+    start = 0
 
-    for i in range(0, len(sentences), step):
+    while start < len(text):
 
-        chunk = sentences[i:i + chunk_size]
+        end = min(start + chunk_size, len(text))
 
-        chunks.append(" ".join(chunk))
+        # Avoid cutting words in the middle
+        if end < len(text):
+
+            while end > start and text[end] != " ":
+                end -= 1
+
+        chunk = text[start:end].strip()
+
+        chunks.append(chunk)
+
+        start = end - overlap
 
     return chunks
 
 
-if __name__ == "__main__":
-
-    text = """
-    Sentence 1.
-    Sentence 2.
-    Sentence 3.
-    Sentence 4.
-    Sentence 5.
-    Sentence 6.
-    Sentence 7.
-    Sentence 8.
-    Sentence 9.
-    Sentence 10.
-    Sentence 11.
-    Sentence 12.
-    Sentence 13.
-    Sentence 14.
-    Sentence 15.
-    Sentence 16.
-    Sentence 17.
-    Sentence 18.
-    Sentence 19.
-    Sentence 20.
-    """
-
-    sentences = split_into_sentences(text)
-
-    chunks = create_chunks(
-        sentences,
-        chunk_size=30,
-        overlap=5
-    )
-
-    for index, chunk in enumerate(chunks, start=1):
-
-        print(f"\nChunk {index}\n")
-
-        print(chunk)

@@ -107,9 +107,9 @@ if analyze_btn:
     # -------------------------
     status.info("✂️ Creating chunks...")
 
-    sentences = split_into_sentences(transcript)
+    
 
-    chunks = create_chunks(sentences)
+    chunks = create_chunks(transcript)
 
     progress.progress(50)
 
