@@ -1,7 +1,7 @@
 import streamlit as st
 
 from transcript import get_transcript
-from chunking import split_into_sentences, create_chunks
+from chunking import  create_chunks
 from embedding import create_embeddings
 from vector_store import create_index
 from youtube_utils import extract_video_id
