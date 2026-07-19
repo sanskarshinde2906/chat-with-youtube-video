@@ -102,6 +102,15 @@ if analyze_btn:
 
     progress.progress(25)
 
+    print("=" * 50)
+    print(f"Transcript Length: {len(transcript)} characters")
+    print("=" * 50)
+
+    print("=" * 50)
+    print(f"Characters: {len(transcript)}")
+    print(f"Words: {len(transcript.split())}")
+    print("=" * 50)
+
     # -------------------------
     # Chunking
     # -------------------------
